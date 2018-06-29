@@ -13,7 +13,6 @@
   function computerPlay()
   {
     let r = Math.floor(Math.random() * 3);
-    console.log(r + StatesEnum[r]);
     return(StatesEnum[r]);
   }
 
@@ -21,10 +20,7 @@
   function playRound(playerSelection, computerSelection)
   {
     let cs = computerSelection;
-    let ps = playerSelection.toLowerCase();
-    ps = ps.charAt(0).toUpperCase() + ps.slice(1);
-
-    console.log(`player: ${ps}, comp: ${cs}`);
+    let ps = playerSelection;
     if (ps == cs)
     {
       console.log(`You played ${ps} against computer's ${cs}. It's a draw.`);
@@ -41,14 +37,32 @@
     return false;
   }
 
+  function toTitleCase(input)
+  {
+    let i = input.toLowerCase();
+    i = i.charAt(0).toUpperCase() + i.slice(1);
+    return i;
+    if (input == "Rock" || input == "Paper" || input == "Scissors")
+      return true;
+    return false;
+  }
+
   function game()
   {
     let playerScore = 0;
     let computerScore = 0;
     while (playerScore < 5 & computerScore < 5)
     {
-      let player = prompt("What do you choose?"); // TODO: assert
-      let result = playRound(player, computerPlay());
+      let playerChoice = "";
+      while(true)
+      {
+        playerChoice = prompt("What do you choose?"); // TODO: assert
+        playerChoice = toTitleCase(playerChoice);
+        if (playerChoice == "Rock" || playerChoice == "Paper" || playerChoice == "Scissors")
+          break;
+        else alert("What was that? Try again.");
+      }
+      let result = playRound(playerChoice, computerPlay());
       if (result == true)
         ++playerScore;
       else if (result == false)
