@@ -10,34 +10,57 @@
   let StatesEnum = {0:"Rock", 1:"Paper", 2:"Scissors"};
   Object.freeze(StatesEnum);
 
-
   function computerPlay()
   {
     let r = Math.floor(Math.random() * 3);
+    console.log(r + StatesEnum[r]);
     return(StatesEnum[r]);
   }
 
+  // returns true if player won, false if computer won, undefined if it's a draw
   function playRound(playerSelection, computerSelection)
   {
     let cs = computerSelection;
     let ps = playerSelection.toLowerCase();
     ps = ps.charAt(0).toUpperCase() + ps.slice(1);
 
-    //let title = document.querySelector("#title");
+    console.log(`player: ${ps}, comp: ${cs}`);
     if (ps == cs)
+    {
       console.log(`You played ${ps} against computer's ${cs}. It's a draw.`);
-    //title.textContent="D"
-    else
-    if (ps < cs | ((ps == 0) & (cs ==2 )))
-        console.log(`You played ${ps} against computer's ${cs}. You win.`);//title.textContent = "W" + cs + ps;
-      else console.log(`You played ${ps} against computer's ${cs}. You lose.`);//title.textContent = "L" + cs + ps;
+      return undefined;
+    }
+    else if (ps == "Paper" && cs == "Rock" ||
+             ps == "Scissors" && cs == "Paper" ||
+             ps == "Rock" && cs == "Scissors")
+    {
+      console.log(`You played ${ps} against computer's ${cs}. You win this round.`);
+      return true;
+    }
+    console.log(`You played ${ps} against computer's ${cs}. You lose this round.`);
+    return false;
   }
 
-  let str = computerPlay();
-  let p = document.querySelector("#comp");
-  p.textContent = str;
+  function game()
+  {
+    let playerScore = 0;
+    let computerScore = 0;
+    while (playerScore < 5 & computerScore < 5)
+    {
+      let player = prompt("What do you choose?"); // TODO: assert
+      let result = playRound(player, computerPlay());
+      if (result == true)
+        ++playerScore;
+      else if (result == false)
+        ++computerScore;
+        console.log(`Current score is ${playerScore}:${computerScore}.`);
+    }
+    if (computerScore > playerScore)
+      alert(`The score is ${playerScore}:${computerScore}. You lost. `);
+    else alert(`The score is ${playerScore}:${computerScore}. You won. `);
+  }
 
-  playRound("rOCK", str);
+  game();
   </script>
 
 </body>
